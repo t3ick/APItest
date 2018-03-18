@@ -19,7 +19,7 @@ class Domains extends CI_Controller {
         $tab = $this->Domain_model->DomainData();
         $return = array('code' => 200,
             'message' => 'success',
-            'dat' => $tab);
+            'datas' => $tab);
         echo json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
     }
 
