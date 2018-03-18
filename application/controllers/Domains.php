@@ -15,7 +15,7 @@ class Domains extends CI_Controller {
 
     public function index()
     {
-        echo 'test';
+        $this->load->model('Domain_model');
     }
 
     public function help()
