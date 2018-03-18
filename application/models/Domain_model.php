@@ -17,7 +17,7 @@ class Domain_model extends CI_Model
     //         ->get()
     //         ->result();
     // }
-    public function domainData() {
+    public function DomainData() {
         echo 'test model';
     }
 }
