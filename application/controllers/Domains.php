@@ -7,4 +7,10 @@ class Domains extends CI_Controller {
     {
         $this->load->view('welcome_message');
     }
+
+    public function help()
+    {
+        $this->load->helper('Help');
+        connect();
+    }
 }
