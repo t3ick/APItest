@@ -166,7 +166,7 @@ class CI_URI {
 					$this->uri_string = substr($this->uri_string, 0, -$slen);
 				}
 				else if (preg_match('/\.[a-zA-Z]+/', $this->uri_string)) {
-                    $mes = array('code' => 400, 'message' => 'error', 'data' => array());
+                    $mes = array('code' => 400, 'message' => 'error', 'datas' => array());
                     $error = json_encode($mes);
 				    show_error($error,400,'error 400 : wrong suffix');
                 }

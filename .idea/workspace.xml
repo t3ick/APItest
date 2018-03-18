@@ -19,8 +19,8 @@
       <file leaf-file-name="URI.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/system/core/URI.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="556">
-              <caret line="171" column="17" lean-forward="true" selection-start-line="171" selection-start-column="17" selection-end-line="171" selection-end-column="17" />
+            <state relative-caret-position="526">
+              <caret line="169" column="47" lean-forward="true" selection-start-line="169" selection-start-column="47" selection-end-line="169" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -237,12 +237,12 @@
       <workItem from="1521357760603" duration="356000" />
       <workItem from="1521358221025" duration="525000" />
       <workItem from="1521358957882" duration="2108000" />
-      <workItem from="1521362130365" duration="3638000" />
+      <workItem from="1521362130365" duration="3801000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7513000" />
+    <option name="totallyTimeSpent" value="7676000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="13" y="23" width="1680" height="1027" extended-state="0" />
@@ -490,8 +490,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/system/core/URI.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="171" column="17" lean-forward="true" selection-start-line="171" selection-start-column="17" selection-end-line="171" selection-end-column="17" />
+        <state relative-caret-position="526">
+          <caret line="169" column="47" lean-forward="true" selection-start-line="169" selection-start-column="47" selection-end-line="169" selection-end-column="47" />
           <folding />
         </state>
       </provider>
