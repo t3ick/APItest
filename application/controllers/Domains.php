@@ -5,7 +5,12 @@ class Domains extends CI_Controller {
 
     public function index()
     {
-        $this->load->view('welcome_message');
+        $this->load->model('domain_model');
+        $tab = $this->domain_model->domainData();
+        $return = array('code' => 200,
+            'message' => 'success',
+            'dat' => $tab);
+        echo json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
     }
 
     public function help()
