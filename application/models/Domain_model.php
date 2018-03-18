@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: t3i
- * Date: 13/03/2018
- * Time: 15:10
- */
 
 class domain_model extends CI_Model
 {
