@@ -16,7 +16,11 @@ class Domains extends CI_Controller {
     public function index()
     {
         $this->load->model('Domain_model');
-        $this->Domain_model->DomainData();
+        $tab = $this->Domain_model->DomainData();
+        $return = array('code' => 200,
+            'message' => 'success',
+            'dat' => $tab);
+        echo json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
     }
 
     public function help()
