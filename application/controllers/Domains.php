@@ -5,7 +5,7 @@ class Domains extends CI_Controller {
 
     public function index()
     {
-        $this->load->model('domain_model');
+        $this->load->model('Domain_model');
         $tab = $this->domain_model->domainData();
         $return = array('code' => 200,
             'message' => 'success',
