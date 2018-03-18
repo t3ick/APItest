@@ -153,6 +153,7 @@ class CI_URI {
 		// Filter out control characters and trim slashes
 		$this->uri_string = trim(remove_invisible_characters($str, FALSE), '/');
 
+
 		if ($this->uri_string !== '')
 		{
 			// Remove the URL suffix, if present
@@ -164,7 +165,12 @@ class CI_URI {
 				{
 					$this->uri_string = substr($this->uri_string, 0, -$slen);
 				}
-			}
+				else if (preg_match('/\.[a-zA-Z]+/', $this->uri_string)) {
+                    $mes = array('code' => 400, 'message' => 'error', 'data' => array());
+                    $error = json_encode($mes);
+				    show_error($error,400,'error 400 : wrong suffix');
+                }
+            }
 
 			$this->segments[0] = NULL;
 			// Populate the segments array
@@ -327,10 +333,7 @@ class CI_URI {
 	{
 		if ( ! empty($str) && ! empty($this->_permitted_uri_chars) && ! preg_match('/^['.$this->_permitted_uri_chars.']+$/i'.(UTF8_ENABLED ? 'u' : ''), $str))
 		{
-			//show_error('The URI you submitted has disallowed characters.', 400);
-            $mes = array('code' => 400, 'message' => 'error', 'datas' => []);
-            $error = json_encode($mes);
-            show_error($error);
+			show_error('The URI you submitted has disallowed characters.', 400);
 		}
 	}
 
