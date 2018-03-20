@@ -48,97 +48,93 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		https://codeigniter.com/user_guide/libraries/uri.html
  */
-class CI_URI {
+class CI_URI
+{
 
-	/**
-	 * List of cached URI segments
-	 *
-	 * @var	array
-	 */
-	public $keyval = array();
+    /**
+     * List of cached URI segments
+     *
+     * @var    array
+     */
+    public $keyval = array();
 
-	/**
-	 * Current URI string
-	 *
-	 * @var	string
-	 */
-	public $uri_string = '';
+    /**
+     * Current URI string
+     *
+     * @var    string
+     */
+    public $uri_string = '';
 
-	/**
-	 * List of URI segments
-	 *
-	 * Starts at 1 instead of 0.
-	 *
-	 * @var	array
-	 */
-	public $segments = array();
+    /**
+     * List of URI segments
+     *
+     * Starts at 1 instead of 0.
+     *
+     * @var    array
+     */
+    public $segments = array();
 
-	/**
-	 * List of routed URI segments
-	 *
-	 * Starts at 1 instead of 0.
-	 *
-	 * @var	array
-	 */
-	public $rsegments = array();
+    /**
+     * List of routed URI segments
+     *
+     * Starts at 1 instead of 0.
+     *
+     * @var    array
+     */
+    public $rsegments = array();
 
-	/**
-	 * Permitted URI chars
-	 *
-	 * PCRE character group allowed in URI segments
-	 *
-	 * @var	string
-	 */
-	protected $_permitted_uri_chars;
+    /**
+     * Permitted URI chars
+     *
+     * PCRE character group allowed in URI segments
+     *
+     * @var    string
+     */
+    protected $_permitted_uri_chars;
 
-	/**
-	 * Class constructor
-	 *
-	 * @return	void
-	 */
-	public function __construct()
-	{
-		$this->config =& load_class('Config', 'core');
+    /**
+     * Class constructor
+     *
+     * @return    void
+     */
+    public function __construct()
+    {
+        $this->config =& load_class('Config', 'core');
 
-		// If query strings are enabled, we don't need to parse any segments.
-		// However, they don't make sense under CLI.
-		if (is_cli() OR $this->config->item('enable_query_strings') !== TRUE)
-		{
-			$this->_permitted_uri_chars = $this->config->item('permitted_uri_chars');
+        // If query strings are enabled, we don't need to parse any segments.
+        // However, they don't make sense under CLI.
+        if (is_cli() OR $this->config->item('enable_query_strings') !== TRUE) {
+            $this->_permitted_uri_chars = $this->config->item('permitted_uri_chars');
 
-			// If it's a CLI request, ignore the configuration
-			if (is_cli())
-			{
-				$uri = $this->_parse_argv();
-			}
-			else
-			{
-				$protocol = $this->config->item('uri_protocol');
-				empty($protocol) && $protocol = 'REQUEST_URI';
+            // If it's a CLI request, ignore the configuration
+            if (is_cli()) {
+                $uri = $this->_parse_argv();
+            } else {
+                $protocol = $this->config->item('uri_protocol');
+                empty($protocol) && $protocol = 'REQUEST_URI';
 
-				switch ($protocol)
-				{
-					case 'AUTO': // For BC purposes only
-					case 'REQUEST_URI':
-						$uri = $this->_parse_request_uri();
-						break;
-					case 'QUERY_STRING':
-						$uri = $this->_parse_query_string();
-						break;
-					case 'PATH_INFO':
-					default:
-						$uri = isset($_SERVER[$protocol])
-							? $_SERVER[$protocol]
-							: $this->_parse_request_uri();
-						break;
-				}
-			}
+                switch ($protocol) {
+                    case 'AUTO': // For BC purposes only
+                    case 'REQUEST_URI':
+                        $uri = $this->_parse_request_uri();
+                        break;
+                    case 'QUERY_STRING':
+                        $uri = $this->_parse_query_string();
+                        break;
+                    case 'PATH_INFO':
+                    default:
+                        $uri = isset($_SERVER[$protocol])
+                            ? $_SERVER[$protocol]
+                            : $this->_parse_request_uri();
+                        break;
+                }
+            }
 
-			$this->_set_uri_string($uri);
-		}
+            $this->_set_uri_string($uri);
+        }
 
-		log_message('info', 'URI Class Initialized');
-	}
+        log_message('info', 'URI Class Initialized');
+    }
 
 	// --------------------------------------------------------------------
 
@@ -153,25 +149,24 @@ class CI_URI {
 		// Filter out control characters and trim slashes
 		$this->uri_string = trim(remove_invisible_characters($str, FALSE), '/');
 
+		global $err400;
+        $err400 = true;
 
-		if ($this->uri_string !== '')
-		{
-			// Remove the URL suffix, if present
-			if (($suffix = (string) $this->config->item('url_suffix')) !== '')
-			{
-				$slen = strlen($suffix);
+		if ($this->uri_string !== '') {
+            // Remove the URL suffix, if present
+            if (($suffix = (string)$this->config->item('url_suffix')) !== '') {
+                $slen = strlen($suffix);
 
-				if (substr($this->uri_string, -$slen) === $suffix)
-				{
-					$this->uri_string = substr($this->uri_string, 0, -$slen);
-				}
-				else if (preg_match('/\.[a-zA-Z]+/', $this->uri_string)) {
-                    $mes = array('code' => 400, 'message' => 'error', 'datas' => array());
-                    $error = json_encode($mes);
-				    show_error($error,400,'error 400 : wrong suffix');
+                if (substr($this->uri_string, -$slen) === $suffix) {
+                    $this->uri_string = substr($this->uri_string, 0, -$slen);
                 }
+				else if (preg_match('/\.[a-zA-Z]+/', $this->uri_string, $match)) {
+//                    $slen = strlen($match[0]);
+//                    $this->uri_string = substr($this->uri_string, 0, -$slen);
+                    show_error('{"code":400,"message":"error","datas":[]}');
             }
-
+            }
+        }
 			$this->segments[0] = NULL;
 			// Populate the segments array
 			foreach (explode('/', trim($this->uri_string, '/')) as $val)
@@ -184,7 +179,7 @@ class CI_URI {
 				{
 					$this->segments[] = $val;
 				}
-			}
+
 
 			unset($this->segments[0]);
 		}
