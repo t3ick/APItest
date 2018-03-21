@@ -163,7 +163,10 @@ class CI_URI
 				else if (preg_match('/\.[a-zA-Z]+/', $this->uri_string, $match)) {
 //                    $slen = strlen($match[0]);
 //                    $this->uri_string = substr($this->uri_string, 0, -$slen);
-                    show_error('{"code":400,"message":"error","datas":[]}');
+                    $return = array('code' => 400,
+                        'message' => 'error',
+                        'datas' => array('void'));
+                    show_error(json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK));
             }
             }
         }
