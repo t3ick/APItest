@@ -26,7 +26,7 @@ class Domain_model extends CI_Model
         if (empty(get_instance()->db)) {
             get_instance()->db = $this->CI->load->database('default', true);
         }
-        echo '<pre>';
+        //echo '<pre>';
 
         return $this->db->select('id, slug, name, description')
             ->from($this->table)
