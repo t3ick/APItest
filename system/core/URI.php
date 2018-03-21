@@ -166,7 +166,8 @@ class CI_URI
                     $return = array('code' => 400,
                         'message' => 'error',
                         'datas' => array('void'));
-                    show_error(json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK));
+                    set_status_header(400);
+                    show_error(json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK), 400);
             }
             }
         }
