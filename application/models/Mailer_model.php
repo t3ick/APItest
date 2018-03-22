@@ -28,7 +28,7 @@ class Mailer_model extends CI_Model
         $rep->id = $domain[0]->id;
         $rep->slug = $domain[0]->slug;
         $rep->name = $domain[0]->name;
-        $rep->decription = $domain[0]->description;
+        $rep->description = $domain[0]->description;
 
         $user = $this->db->select('id, username')
             ->where('id', 1)
