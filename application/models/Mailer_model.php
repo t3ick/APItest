@@ -38,7 +38,8 @@ class Mailer_model extends CI_Model
 
         $rep->creator = $user[0];
 
-        $rep->created_at = str_replace(' ', 'T',$domain[0]->created_at.'+01:00');
+        $date = new DateTime($domain[0]->created_at.' '.date_default_timezone_get());
+        $rep->created_at = $date->format('Y-m-d\TH:i:sP');
 
         return ($rep);
     }
