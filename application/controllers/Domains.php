@@ -16,4 +16,18 @@ class Domains extends CI_Controller {
         echo json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
         return ($tab);
     }
+
+    public function Mailer()
+    {
+        $code = 200;
+        $mess = 'success';
+
+        $this->load->model('Mailer_model');
+        $tab = $this->Mailer_model->Mailer();
+        $return = ['code'=>$code,
+            'message' => $mess,
+            'datas' => $tab];
+        echo json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+        return ($tab);
+    }
 }
