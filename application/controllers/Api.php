@@ -23,8 +23,8 @@ class Api extends CI_Controller {
             $tab = $this->Mailer_model->Mailer();
 
             if ($tab == '401') {
-                set_status_header(401);
-                $mes = array('code' => 401, 'message' => 'not found');
+                set_status_header(404);
+                $mes = array('code' => 404, 'message' => 'not found');
                 echo json_encode($mes);
                 die;
                 }
