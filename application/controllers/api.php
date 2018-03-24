@@ -2,6 +2,9 @@
 //defined('BASEPATH') OR exit('No direct script access allowed');
 
 class api extends CI_Controller {
+    public function index() {
+        echo 'controller api';
+    }
     public function domains()
     {
         if (!isset($this->uri->segments[3])) {
