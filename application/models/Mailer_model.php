@@ -5,6 +5,7 @@ class Mailer_model extends CI_Model
     protected $CI;
 
     public function Mailer() {
+
         $this->CI =& get_instance();
         if (empty(get_instance()->db)) {
             get_instance()->db = $this->CI->load->database('default', true);
@@ -20,10 +21,14 @@ class Mailer_model extends CI_Model
         }
 
         $domain = $this->db->select('id, slug, name, description, created_at')
-            ->where('id', 1)
+            ->where('name', $this->uri->segments[3])
             ->from('domain')
             ->get()
             ->result();
+
+        if (($domain) == null) {
+            return '401';
+        }
 
         $rep->id = $domain[0]->id;
         $rep->slug = $domain[0]->slug;
@@ -31,7 +36,7 @@ class Mailer_model extends CI_Model
         $rep->description = $domain[0]->description;
 
         $user = $this->db->select('id, username')
-            ->where('id', 1)
+            ->where('id', $domain[0]->id)
             ->from('user')
             ->get()
             ->result();
