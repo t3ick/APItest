@@ -4,35 +4,34 @@
 class Api extends CI_Controller {
     public function domains()
     {
-        if (!isset($this->uri->segments[3])) {
-            $code = 200;
-            $mess = 'success';
+        $this->load->helper('help');
 
-            $this->load->model('Domain_model');
-            $tab = $this->Domain_model->DomainData();
-            $return = array('code' => $code,
-                'message' => $mess,
-                'datas' => $tab);
-            echo json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+        $code = 200;
+        $mess = 'success';
+        $data = '404';
+
+        if (isset($this->uri->segments[5])) {
+            testBase('404');
+        }
+
+        if (isset($this->uri->segments[3])) {
+            if (isset($this->uri->segments[4]) && $this->uri->segments[4] == 'translations') {
+                $this->load->model('Translation_model');
+                $data = $this->Translation_model->Translation();
+            }
+            elseif (!isset($this->uri->segments[4])) {
+                $this->load->model('Mailer_model');
+                $data = $this->Mailer_model->Mailer();
+            }
         }
         else {
-            $code = 200;
-            $mess = 'success';
-
-            $this->load->model('Mailer_model');
-            $tab = $this->Mailer_model->Mailer();
-
-            if ($tab == '401') {
-                set_status_header(404);
-                $mes = array('code' => 404, 'message' => 'not found');
-                echo json_encode($mes);
-                die;
-                }
-
-            $return = ['code' => $code,
-                'message' => $mess,
-                'datas' => $tab];
-            echo json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+            $this->load->model('Domain_model');
+            $data = $this->Domain_model->DomainData();
         }
+        testBase($data);
+        $return = array('code' => $code,
+            'message' => $mess,
+            'datas' => $data);
+        echo json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
     }
 }

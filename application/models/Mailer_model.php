@@ -17,7 +17,7 @@ class Mailer_model extends CI_Model
             ->result();
 
         for ($i = 0; isset($lang[$i]); $i++) {
-            $rep->langs[$i] = $lang[$i]->lang_id;
+            $data->langs[$i] = $lang[$i]->lang_id;
         }
 
         $domain = $this->db->select('id, slug, name, description, created_at')
@@ -27,13 +27,13 @@ class Mailer_model extends CI_Model
             ->result();
 
         if (($domain) == null) {
-            return '401';
+            return '404';
         }
 
-        $rep->id = $domain[0]->id;
-        $rep->slug = $domain[0]->slug;
-        $rep->name = $domain[0]->name;
-        $rep->description = $domain[0]->description;
+        $data->id = $domain[0]->id;
+        $data->slug = $domain[0]->slug;
+        $data->name = $domain[0]->name;
+        $data->description = $domain[0]->description;
 
         $user = $this->db->select('id, username')
             ->where('id', $domain[0]->id)
@@ -41,11 +41,11 @@ class Mailer_model extends CI_Model
             ->get()
             ->result();
 
-        $rep->creator = $user[0];
+        $data->creator = $user[0];
 
         $date = new DateTime($domain[0]->created_at.' '.date_default_timezone_get());
-        $rep->created_at = $date->format('Y-m-d\TH:i:sP');
+        $data->created_at = $date->format('Y-m-d\TH:i:sP');
 
-        return ($rep);
+        return ($data);
     }
 }
