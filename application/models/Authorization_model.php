@@ -16,6 +16,10 @@ class Authorization_model extends CI_Model
             get_instance()->db = $this->CI->load->database('default', true);
         }
 
+        if ($this->input->post() == null && $this->input->get_request_header('Authorization') == null) {
+            return 'pass';
+        }
+
         $pass = $this->input->get_request_header('Authorization');
         $code = $this->input->post('code');
         $trans = $this->input->post('trans');
@@ -59,8 +63,9 @@ class Authorization_model extends CI_Model
             }
         }
 
-        $max = $this->db->select_max('id')
+        $max = $this->db->select('id')
             ->from('translation')
+            ->where('code', 'test')
             ->get()
             ->result();
 
