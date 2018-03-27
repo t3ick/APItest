@@ -160,7 +160,7 @@ class CI_URI
                 if (substr($this->uri_string, -$slen) === $suffix) {
                     $this->uri_string = substr($this->uri_string, 0, -$slen);
                 }
-				else if (preg_match('/\.[a-zA-Z]+/', $this->uri_string, $match)) {
+                else if (preg_match('/\.[a-zA-Z]+/', $this->uri_string, $match)) {
 //                    $slen = strlen($match[0]);
 //                    $this->uri_string = substr($this->uri_string, 0, -$slen);
                     $return = array('code' => 400,
@@ -168,7 +168,7 @@ class CI_URI
                         'datas' => array('void'));
                     set_status_header(400);
                     show_error(json_encode($return, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK), 400);
-            }
+                }
             }
         }
 			$this->segments[0] = NULL;

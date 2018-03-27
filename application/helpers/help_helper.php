@@ -19,10 +19,22 @@ function connect()
 }
 
 
-function testBase($base = '404') {
-    if ($base == '404') {
-        set_status_header(404);
-        $mes = array('code' => 404, 'message' => 'not found');
+function testBase($base = '404')
+{
+    if ($base == '404' || $base == '403' || $base == '401') {
+        $error = (int)$base;
+        set_status_header($error);
+        $mes = array('code' => $error, 'message' => 'not found');
         echo json_encode($mes);
         die;
-}}
+    }
+}
+
+function aff ($data = [], $code = 200, $mess = 'success') {
+    set_status_header($code);
+    $aff = array('code' => $code,
+        'message' => $mess,
+        'datas' => $data);
+    echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+    die;
+}
