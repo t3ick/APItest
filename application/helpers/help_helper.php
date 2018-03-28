@@ -19,9 +19,9 @@ function connect()
 }
 
 
-function testBase($base = '404')
+function error($base = '404')
 {
-    if ($base == '404' || $base == '403' || $base == '401') {
+    if ($base == '404' || $base == '403' || $base == '401' || $base == '400') {
         $error = (int)$base;
         set_status_header($error);
         $mes = array('code' => $error, 'message' => 'not found');

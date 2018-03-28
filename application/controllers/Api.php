@@ -8,7 +8,7 @@ class Api extends CI_Controller {
         $data = '404';
 
         if (isset($this->uri->segments[5])) {
-            testBase('404');
+            error('404');
         }
             if (isset($this->uri->segments[3])) {
                 if (isset($this->uri->segments[4]) && $this->uri->segments[4] == 'translations') {
@@ -26,7 +26,7 @@ class Api extends CI_Controller {
                 $this->load->model('Domain_model');
                 $data = $this->Domain_model->DomainData();
             }
-            testBase($data);
+            error($data);
             aff($data);
     }
 }

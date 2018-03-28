@@ -11,23 +11,27 @@ class Mailer_model extends CI_Model
             get_instance()->db = $this->CI->load->database('default', true);
         }
 
-        $lang = $this->db->select('lang_id')
-            ->from('domain_lang')
-            ->get()
-            ->result();
-
-        for ($i = 0; isset($lang[$i]); $i++) {
-            $data->langs[$i] = $lang[$i]->lang_id;
-        }
-
         $domain = $this->db->select('id, slug, name, description, created_at')
             ->where('name', $this->uri->segments[3])
             ->from('domain')
             ->get()
             ->result();
 
+        $lang = $this->db->select('lang_id')
+            ->from('domain_lang')
+            ->where('domain_id', $domain[0]->id)
+            ->get()
+            ->result();
+
+        $data->langs[] = null;
+
+        for ($i = 0; isset($lang[$i]); $i++) {
+            $data->langs[$i] = $lang[$i]->lang_id;
+        }
+
+
         if (($domain) == null) {
-            return '404';
+            error('404');
         }
 
         $data->id = $domain[0]->id;
