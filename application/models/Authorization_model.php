@@ -36,14 +36,20 @@ class Authorization_model extends CI_Model
         ->get()
         ->result();
 
-    if ($user[0]->password == $pass) {
-        if ($domain[0]->id != $user[0]->id)
+    $test403 = $this->db->select('password')
+        ->from('user')
+        ->where('password', $pass)
+        ->get()
+        ->result();
+
+    if ($user[0]->password != $pass) {
+        if ($test403)
             error('403');
+        else {
+            error('401');
+        }
     }
-    else {
-        error('401');
-    }
-    if ($code == "" ) {
+    if ($code == null || $trans == null) {
         error('400');
     }
 
@@ -56,6 +62,7 @@ class Authorization_model extends CI_Model
 
         $data = (object)[];
         $data->trans = (object)[];
+
         foreach ($domain_lang as $lang) {
             $tag = $lang->lang_id;
             if (array_key_exists($tag, $trans)){
@@ -66,9 +73,8 @@ class Authorization_model extends CI_Model
             }
         }
 
-        $max = $this->db->select('id')
+        $max = $this->db->select_max('id')
             ->from('translation')
-            ->where('code', 'test')
             ->get()
             ->result();
 
