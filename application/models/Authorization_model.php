@@ -24,7 +24,10 @@ class Authorization_model extends CI_Model
     $code = $this->input->post('code');
     $trans = $this->input->post('trans');
 
-    if ($code != null && $pass == null) {
+    if (($code != null && $pass == null) || ($code == null && $pass != null)) {
+        error('403');
+    }
+    if ($trans != null && ($pass == null || $code == null)) {
         error('403');
     }
 
