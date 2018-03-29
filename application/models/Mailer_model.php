@@ -17,6 +17,10 @@ class Mailer_model extends CI_Model
             ->get()
             ->result();
 
+        if (($domain) == null) {
+            error('404');
+        }
+
         $lang = $this->db->select('lang_id')
             ->from('domain_lang')
             ->where('domain_id', $domain[0]->id)
@@ -27,11 +31,6 @@ class Mailer_model extends CI_Model
 
         for ($i = 0; isset($lang[$i]); $i++) {
             $data->langs[$i] = $lang[$i]->lang_id;
-        }
-
-
-        if (($domain) == null) {
-            error('404');
         }
 
         $data->id = $domain[0]->id;
