@@ -50,7 +50,11 @@ class Authorization_model extends CI_Model
         }
     }
     if ($code == null || $trans == null) {
-        error('400');
+        set_status_header(400);
+        $mes = array('code' => 400,
+            'message' => 'error form',
+            'datas' => ['ko']);
+        echo json_encode($mes);die;
     }
 
 
