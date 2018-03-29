@@ -24,6 +24,10 @@ class Authorization_model extends CI_Model
     $code = $this->input->post('code');
     $trans = $this->input->post('trans');
 
+    if ($code != null && $pass == null) {
+        error('403');
+    }
+
     $domain = $this->db->select('id')
         ->where('name', $this->uri->segments[3])
         ->from('domain')

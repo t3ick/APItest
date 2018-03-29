@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e234d291-5850-4198-945b-ec50bbe9f5cb" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/application/models/Authorization_model.php" afterPath="$PROJECT_DIR$/application/models/Authorization_model.php" />
-      <change beforePath="$PROJECT_DIR$/application/views/errors/html/error_db.php" afterPath="$PROJECT_DIR$/application/views/errors/html/error_db.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,8 +29,8 @@
       <file leaf-file-name="Authorization_model.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/models/Authorization_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="532">
-              <caret line="57" column="5" lean-forward="true" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="5" />
+            <state relative-caret-position="227">
+              <caret line="28" column="5" lean-forward="true" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -141,8 +140,8 @@
         <option value="$PROJECT_DIR$/application/views/errors/cli/error_general.php" />
         <option value="$PROJECT_DIR$/application/views/errors/cli/error_php.php" />
         <option value="$PROJECT_DIR$/application/views/errors/cli/error_exception.php" />
-        <option value="$PROJECT_DIR$/application/models/Authorization_model.php" />
         <option value="$PROJECT_DIR$/application/views/errors/html/error_db.php" />
+        <option value="$PROJECT_DIR$/application/models/Authorization_model.php" />
       </list>
     </option>
   </component>
@@ -351,12 +350,12 @@
       <workItem from="1521410255707" duration="31685000" />
       <workItem from="1521735486006" duration="4922000" />
       <workItem from="1521890521269" duration="6671000" />
-      <workItem from="1521905203068" duration="61640000" />
+      <workItem from="1521905203068" duration="62540000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115749000" />
+    <option name="totallyTimeSpent" value="116649000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -793,8 +792,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/models/Authorization_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="57" column="5" lean-forward="true" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="5" />
+        <state relative-caret-position="227">
+          <caret line="28" column="5" lean-forward="true" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
           <folding />
         </state>
       </provider>
