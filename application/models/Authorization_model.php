@@ -16,20 +16,23 @@ class Authorization_model extends CI_Model
         get_instance()->db = $this->CI->load->database('default', true);
     }
 
-    if ($this->input->post() == null && $this->input->get_request_header('Authorization') == null) {
+    if ($this->input->server('REQUEST_METHOD') == 'GET') {
         return 'pass';
+    }
+    else if ($this->input->server('REQUEST_METHOD') != 'POST') {
+        error('403');
     }
 
     $pass = $this->input->get_request_header('Authorization');
     $code = $this->input->post('code');
     $trans = $this->input->post('trans');
 
-    if (($code != null && $pass == null) || ($code == null && $pass != null)) {
-        error('403');
-    }
-    if ($trans != null && ($pass == null || $code == null)) {
-        error('403');
-    }
+//    if (($code != null && $pass == null) || ($code == null && $pass != null)) {
+//        error('403');
+//    }
+//    if ($trans != null && ($pass == null || $code == null)) {
+//        error('403');
+//    }
 
     $domain = $this->db->select('id')
         ->where('name', $this->uri->segments[3])
@@ -56,7 +59,7 @@ class Authorization_model extends CI_Model
             error('401');
         }
     }
-    if ($code == null || $trans == null) {
+    if ($code == null) {
         set_status_header(400);
         $mes = array('code' => 400,
             'message' => 'error form',
