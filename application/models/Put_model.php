@@ -63,10 +63,10 @@ class Put_model extends CI_Model
         preg_match($regexTrad, $trans, $trad);
         $translation = str_replace('+', ' ', $trad[1]);
 
-//        $this->db->set('translation_id', $this->uri->segments[5])
-//            ->set('lang_id', $tag[1])
-//            ->set('trans', $translation)
-//            ->insert('translation_to_lang');
+        $this->db->set('translation_id', $this->uri->segments[5])
+            ->set('lang_id', $tag[1])
+            ->set('trans', $translation)
+            ->insert('translation_to_lang');
 
         $trans = $this->db->from('translation_to_lang')
             ->select('lang_id, trans')
