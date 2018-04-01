@@ -10,62 +10,50 @@ class Authorization_model extends CI_Model
     protected $CI;
 
     public function Authorization() {
-
-    $this->CI =& get_instance();
-    if (empty(get_instance()->db)) {
-        get_instance()->db = $this->CI->load->database('default', true);
-    }
-
-    if ($this->input->server('REQUEST_METHOD') == 'GET') {
-        return 'pass';
-    }
-    else if ($this->input->server('REQUEST_METHOD') != 'POST') {
-        error('403');
-    }
-
-    $pass = $this->input->get_request_header('Authorization');
-    $code = $this->input->post('code');
-    $trans = $this->input->post('trans');
-
-//    if (($code != null && $pass == null) || ($code == null && $pass != null)) {
-//        error('403');
-//    }
-//    if ($trans != null && ($pass == null || $code == null)) {
-//        error('403');
-//    }
-
-    $domain = $this->db->select('id')
-        ->where('name', $this->uri->segments[3])
-        ->from('domain')
-        ->get()
-        ->result();
-
-    $user = $this->db->select('id, password')
-        ->from('user')
-        ->where('id', $domain[0]->id)
-        ->get()
-        ->result();
-
-    $test403 = $this->db->select('password')
-        ->from('user')
-        ->where('password', $pass)
-        ->get()
-        ->result();
-
-    if ($user[0]->password != $pass) {
-        if ($test403)
-            error('403');
-        else {
-            error('401');
+        $this->CI =& get_instance();
+        if (empty(get_instance()->db)) {
+            get_instance()->db = $this->CI->load->database('default', true);
         }
-    }
-    if ($code == null) {
-        set_status_header(400);
-        $mes = array('code' => 400,
-            'message' => 'error form',
-            'datas' => ['ko']);
-        echo json_encode($mes);die;
-    }
+
+        if ($this->input->server('REQUEST_METHOD') == 'GET') {
+            return 'pass';
+        }
+        else if ($this->input->server('REQUEST_METHOD') != 'POST') {
+            error('403');
+        }
+
+        $pass = $this->input->get_request_header('Authorization');
+        $code = $this->input->post('code');
+        $trans = $this->input->post('trans');
+
+        $domain = $this->db->from('domain')
+            ->select('id')
+            ->where('name', $this->uri->segments[3])
+            ->get()->result();
+
+        $user = $this->db->from('user')
+            ->select('id, password')
+            ->where('id', $domain[0]->id)
+            ->get()
+            ->result();
+
+        if ($user[0]->password != $pass) {
+
+            $test403 = $this->db->from('user')
+                ->select('password')
+                ->where('password', $pass)
+                ->get()->result();
+
+            if ($test403)
+                error(403);
+            else {
+                error(401);
+            }
+        }
+
+        if ($code == null) {
+            aff('ko', 400,'error form');
+        }
 
 
     $domain_lang = $this->db->select('lang_id')
@@ -74,8 +62,8 @@ class Authorization_model extends CI_Model
         ->get()
         ->result();
 
-        $data = (object)[];
-        $data->trans = (object)[];
+        $data = (object)array();
+        $data->trans = (object)array();
 
         foreach ($domain_lang as $lang) {
             $tag = $lang->lang_id;
@@ -110,6 +98,5 @@ class Authorization_model extends CI_Model
         }
 
         aff($data, 201);
-        die;
     }
 }

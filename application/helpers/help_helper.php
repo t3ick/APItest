@@ -18,19 +18,15 @@ function connect()
     echo "Connected successfully";
 }
 
-
-function error($base = '404')
+function error($error)
 {
-    if ($base == '404' || $base == '403' || $base == '401' || $base == '400') {
-        $error = (int)$base;
-        set_status_header($error);
-        $mes = array('code' => $error, 'message' => 'not found');
-        echo json_encode($mes);
-        die;
-    }
+    set_status_header($error);
+    $mes = array('code' => $error, 'message' => 'not found');
+    echo json_encode($mes);
+    die;
 }
 
-function aff ($data = [], $code = 200, $mess = 'success') {
+function aff ($data = array(), $code = 200, $mess = 'success') {
     set_status_header($code);
     $aff = array('code' => $code,
         'message' => $mess,

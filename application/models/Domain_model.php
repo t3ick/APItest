@@ -11,9 +11,10 @@ class Domain_model extends CI_Model
             get_instance()->db = $this->CI->load->database('default', true);
         }
 
-        return $this->db->select('id, slug, name, description')
-            ->from('domain')
-            ->get()
-            ->result();
+        $domain = $this->db->from('domain')
+            ->select('id, slug, name, description')
+            ->get()->result();
+
+        aff($domain);
     }
 }
