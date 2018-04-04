@@ -31,9 +31,9 @@ class Api extends CI_Controller {
                 $this->Authorization_model->Authorization();
             }
         }
-        if ($this->input->server('REQUEST_METHOD') == 'PUT' && !isset($this->uri->segments[6])) {
+        if ($this->input->server('REQUEST_METHOD') == 'PUT' && isset($this->uri->segments[5])) {
             $this->load->model('My_Put_model');
-            $this->Put_model->Put();
+            $this->My_Put_model->Put();
         }
 
         error(404);
