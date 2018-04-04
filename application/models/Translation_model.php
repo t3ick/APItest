@@ -32,8 +32,7 @@ class Translation_model extends CI_Model
             $trans = $this->db->from('translation_to_lang')
                 ->select('lang_id, trans')
                 ->where('translation_id', $id[$i]->id)
-                ->get()
-                ->result();
+                ->get()->result();
 
             $data[$i] = (object)array();
             $data[$i]->trans = (object)array();

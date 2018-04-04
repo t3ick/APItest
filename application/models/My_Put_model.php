@@ -6,7 +6,7 @@
  * Time: 14:00
  */
 
-class Put_model extends CI_Model
+class My_Put_model extends CI_Model
 {
     protected $CI;
 
@@ -17,8 +17,9 @@ class Put_model extends CI_Model
             get_instance()->db = $this->CI->load->database('default', true);
         }
 
-        $trans = file_get_contents("php://input");
+        $trans = $this->input->raw_input_stream;
         $pass = $this->input->get_request_header('Authorization');
+
 
         $nb = $this->db->from('translation')
             ->select('code')
