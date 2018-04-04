@@ -32,7 +32,7 @@ class Api extends CI_Controller {
             }
         }
         if ($this->input->server('REQUEST_METHOD') == 'PUT' && !isset($this->uri->segments[6])) {
-            $this->load->model('Put_model');
+            $this->load->model('My_Put_model');
             $this->Put_model->Put();
         }
 

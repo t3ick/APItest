@@ -20,20 +20,20 @@ class My_Put_model extends CI_Model
         $trans = $this->input->raw_input_stream;
         $pass = $this->input->get_request_header('Authorization');
 
+        $domain = $this->db->from('domain')
+            ->select('id')
+            ->where('name', $this->uri->segments[3])
+            ->get()->result();
 
         $nb = $this->db->from('translation')
             ->select('code')
+            ->where('domain_id', $domain[0]->id)
             ->where('id', $this->uri->segments[5])
             ->get()->result();
 
         if (($nb) == null) {
             error(404);
         }
-
-        $domain = $this->db->from('domain')
-            ->select('id')
-            ->where('name', $this->uri->segments[3])
-            ->get()->result();
 
         $user = $this->db->from('user')
             ->select('id, password')
