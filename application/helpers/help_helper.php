@@ -20,6 +20,7 @@ function connect()
 
 function error($error)
 {
+    header('Content-Type: application/json');
     set_status_header($error);
     $mes = array('code' => $error, 'message' => 'not found');
     echo json_encode($mes);
@@ -27,6 +28,7 @@ function error($error)
 }
 
 function aff ($data = array(), $code = 200, $mess = 'success') {
+    header('Content-Type: application/json');
     set_status_header($code);
     $aff = array('code' => $code,
         'message' => $mess,
