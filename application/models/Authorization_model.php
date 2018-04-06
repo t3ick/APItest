@@ -15,13 +15,6 @@ class Authorization_model extends CI_Model
             get_instance()->db = $this->CI->load->database('default', true);
         }
 
-        if ($this->input->server('REQUEST_METHOD') == 'GET') {
-            return 'pass';
-        }
-        else if ($this->input->server('REQUEST_METHOD') != 'POST') {
-            error('403');
-        }
-
         $pass = $this->input->get_request_header('Authorization');
         $code = $this->input->post('code');
         $trans = $this->input->post('trans');
