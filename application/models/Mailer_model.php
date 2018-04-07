@@ -5,7 +5,6 @@ class Mailer_model extends CI_Model
     protected $CI;
 
     public function Mailer() {
-
         $this->CI =& get_instance();
         if (empty(get_instance()->db)) {
             get_instance()->db = $this->CI->load->database('default', true);

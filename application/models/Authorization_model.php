@@ -27,8 +27,7 @@ class Authorization_model extends CI_Model
         $user = $this->db->from('user')
             ->select('id, password')
             ->where('id', $domain[0]->id)
-            ->get()
-            ->result();
+            ->get()->result();
 
         if ($user[0]->password != $pass) {
 
@@ -52,8 +51,7 @@ class Authorization_model extends CI_Model
     $domain_lang = $this->db->select('lang_id')
         ->from('domain_lang')
         ->where('domain_id', $domain[0]->id)
-        ->get()
-        ->result();
+        ->get()->result();
 
         $data = (object)array();
         $data->trans = (object)array();
@@ -70,8 +68,7 @@ class Authorization_model extends CI_Model
 
         $max = $this->db->select_max('id')
             ->from('translation')
-            ->get()
-            ->result();
+            ->get()->result();
 
         $data->id = $max[0]->id + 1;
         $data->code = $code;

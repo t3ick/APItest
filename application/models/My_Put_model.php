@@ -58,8 +58,8 @@ class My_Put_model extends CI_Model
             aff('ko', 400, 'error form');
         }
 
-        $regexTag = '#\[(.+)\]#U';
-        $regexTrad = '#=([a-zA-Z+]+)#';
+        $regexTag = '#^trans\[(.+)\]#U';
+        $regexTrad = '#^trans\[.+\]=([a-zA-Z+]+)&?#';
         preg_match($regexTag, $trans, $tag);
         preg_match($regexTrad, $trans, $trad);
         $translation = str_replace('+', ' ', $trad[1]);
