@@ -26,7 +26,7 @@ class Recipe_model extends CI_Model
 
 
         $aff = (object) array ('code' => 200, 'message' => 'OK');
-        $aff->data = $data;
+        $aff->datas = $data;
 
         echo json_encode($aff);die;
     }
