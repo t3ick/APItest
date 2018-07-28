@@ -27,12 +27,22 @@ function error($error)
     die;
 }
 
+class out extends CI_Output {
+    public function output($aff) {
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK));
+    }
+}
+
 function aff ($data = array(), $code = 200, $mess = 'success') {
-    header('Content-Type: application/json');
+//    header('Content-Type: application/json');
     set_status_header($code);
     $aff = array('code' => $code,
         'message' => $mess,
         'datas' => $data);
-    echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+//    $this->output->set_content_type('application/json');
+//    $this->output->set_output(json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK));
+    $outp = new out;
+    $outp->output($aff);
     die;
 }
