@@ -11,9 +11,15 @@ class Api extends CI_Controller {
         $this->load->helper('help');
 
         $this->load->model('Recipe_model');
-        $this->Recipe_model->recipes ();
 
-        die;
+        if (isset($this->uri->segments[4])){
+            error(404);
+        }
+
+        if (isset($this->uri->segments[3])){
+            $this->Recipe_model->slug($this->uri->segments[3]);die;
+        }
+        $this->Recipe_model->recipes();die;
 
 
 //            $this->load->model('Domain_model');
