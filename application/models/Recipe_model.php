@@ -77,7 +77,7 @@ class Recipe_model extends CI_Model
             $step[] = $val;
         }
 
-        $aff->data = $step;
+        $aff->datas = $step;
 
         echo json_encode($aff);die;
     }
