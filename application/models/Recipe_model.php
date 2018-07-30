@@ -61,6 +61,15 @@ class Recipe_model extends CI_Model
     }
 
     public function step ($slug) {
+        $test = $this->db->from('recipes__recipe')
+            ->select('id')
+            ->where('slug', $slug)
+            ->get()->result();
+
+        if (($test) == null) {
+            error(404);
+        }
+
         $data = $this->db->from('recipes__recipe')
             ->select('step')
             ->where('slug', $slug)
