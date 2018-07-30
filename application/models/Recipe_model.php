@@ -59,4 +59,26 @@ class Recipe_model extends CI_Model
 
         echo json_encode($aff);die;
     }
+
+    public function step ($slug) {
+        $data = $this->db->from('recipes__recipe')
+            ->select('step')
+            ->where('slug', $slug)
+            ->get()->result();
+
+        if (($data) == null) {
+            echo 'error';
+            error(404);
+        }
+
+        $aff = (object) array ('code' => 200, 'message' => 'OK');
+
+        foreach (unserialize($data[0]->step) as $val) {
+            $step[] = $val;
+        }
+
+        $aff->data = $step;
+
+        echo json_encode($aff);die;
+    }
 }

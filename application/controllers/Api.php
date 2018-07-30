@@ -12,8 +12,17 @@ class Api extends CI_Controller {
 
         $this->load->model('Recipe_model');
 
-        if (isset($this->uri->segments[4])){
+        if (isset($this->uri->segments[5])){
             error(404);
+        }
+
+        if (isset($this->uri->segments[4])){
+            if ($this->uri->segments[4] === 'steps') {
+                $this->Recipe_model->step($this->uri->segments[3]);die;
+            }
+            else {
+                error(404);
+            }
         }
 
         if (isset($this->uri->segments[3])){
