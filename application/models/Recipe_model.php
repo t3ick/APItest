@@ -93,19 +93,8 @@ class Recipe_model extends CI_Model
 
     public function post ($pass, $name, $slug, $step) {
 
-        $recipe = $this->db->from('recipes__recipe')
-            ->select('*')
-            ->where('name', $name)
-            ->where('slug', $slug)
-            ->get()->result();
-
-        if($recipe == null) {
-            error(404);
-        }
-
         $user = $this->db->from('users__user')
             ->select('username, last_login, id')
-            ->where('id', (int)$recipe[0]->user_id)
             ->where('password', $pass)
             ->get()->result();
 
@@ -113,11 +102,11 @@ class Recipe_model extends CI_Model
             error(403);
         }
 
-        $this->db->where('name', $name)
-            ->where('slug', $slug)
+        $this->db->set('name', $name)
+            ->set('slug', $slug)
             ->set('step', serialize($step))
-            ->where('user_id', $user[0]->id)
-            ->update('recipes__recipe');
+            ->set('user_id', $user[0]->id)
+            ->insert('recipes__recipe');
 
         $aff = (object) array ('code' => 201, 'message' => 'Created');
 
