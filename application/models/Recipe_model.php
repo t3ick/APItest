@@ -90,4 +90,46 @@ class Recipe_model extends CI_Model
 
         echo json_encode($aff);die;
     }
+
+    public function post ($pass, $name, $slug, $step) {
+
+        $recipe = $this->db->from('recipes__recipe')
+            ->select('*')
+            ->where('name', $name)
+            ->where('slug', $slug)
+            ->get()->result();
+
+        if($recipe == null) {
+            error(404);
+        }
+
+        $user = $this->db->from('users__user')
+            ->select('username, last_login, id')
+            ->where('id', (int)$recipe[0]->user_id)
+            ->where('password', $pass)
+            ->get()->result();
+
+        if($user == null) {
+            error(403);
+        }
+
+        $this->db->where('name', $name)
+            ->where('slug', $slug)
+            ->set('step', serialize($step))
+            ->where('user_id', $user[0]->id)
+            ->update('recipes__recipe');
+
+        $aff = (object) array ('code' => 201, 'message' => 'Created');
+
+        $data = (object) array ('id' =>$user[0]->id);
+        $data->name = $name;
+        $data->user = $user;
+        $data->slug = $slug;
+        $data->step = $step;
+
+        $aff->datas = $data;
+
+        set_status_header(201);
+        echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);die;
+    }
 }

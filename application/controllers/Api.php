@@ -16,6 +16,17 @@ class Api extends CI_Controller {
             error(404);
         }
 
+        if ($this->input->server('REQUEST_METHOD') == 'POST') {
+            if (isset($this->uri->segments[3])){
+                error(404);
+            }
+            $pass = $this->input->get_request_header('Authorization');
+            $name = $this->input->post('name');
+            $slug = $this->input->post('slug');
+            $step = $this->input->post('step');
+            $this->Recipe_model->post($pass, $name, $slug, $step);die;
+        }
+
         if (isset($this->uri->segments[4])){
             if ($this->uri->segments[4] === 'steps') {
                 $this->Recipe_model->step($this->uri->segments[3]);die;
