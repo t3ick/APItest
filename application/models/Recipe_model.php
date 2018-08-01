@@ -120,7 +120,7 @@ class Recipe_model extends CI_Model
             ->set('user_id', $user[0]->id)
             ->insert('recipes__recipe');
 
-        if($user == null) {
+        if($insert == null) {
             error(400, 'Bad Request', array('slug'));
         }
 
