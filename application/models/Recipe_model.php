@@ -93,16 +93,16 @@ class Recipe_model extends CI_Model
 
     public function post ($pass, $name, $slug, $step) {
 
-        if ($slug == null) {
-            $slug = $name;
-        }
-
         if ($name == null) {
-            $name = '';
+            error(400, 'Bad Request', array('name'));
         }
 
         if ($step == null) {
-            $step = array('');
+            error(400, 'Bad Request', array('step'));
+        }
+
+        if ($slug == null) {
+            $slug = $name;
         }
 
         $user = $this->db->from('users__user')
@@ -125,6 +125,14 @@ class Recipe_model extends CI_Model
         }
 
         $aff = (object) array ('code' => 201, 'message' => 'Created');
+
+        $date = date('Y-m-d');
+
+        $this->db->set('last_login', $date)
+            ->where('password', $pass)
+            ->update('users__user');
+
+        $user[0]->last_login = $date.'';
 
         $data = (object) array ('id' =>$user[0]->id);
         $data->name = $name;
