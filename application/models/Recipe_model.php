@@ -134,7 +134,12 @@ class Recipe_model extends CI_Model
 
         $user[0]->last_login = $date.'';
 
-        $data = (object) array ('id' =>$user[0]->id);
+        $id = $this->db->from('recipes__recipe')
+            ->select('id')
+            ->where('slug', $slug)
+            ->get()->result();
+
+        $data = (object) array ('id' => $id[0]->id);
         $data->name = $name;
         $data->user = $user[0];
         $data->slug = $slug;
