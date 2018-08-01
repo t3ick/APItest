@@ -93,20 +93,36 @@ class Recipe_model extends CI_Model
 
     public function post ($pass, $name, $slug, $step) {
 
+        if ($slug == null) {
+            $slug = $name;
+        }
+
+        if ($name == null) {
+            $name = '';
+        }
+
+        if ($step == null) {
+            $step = array('');
+        }
+
         $user = $this->db->from('users__user')
             ->select('username, last_login, id')
             ->where('password', $pass)
             ->get()->result();
 
         if($user == null) {
-            error(403);
+            error(401, 'Unauthorized');
         }
 
-        $this->db->set('name', $name)
+        $insert = $this->db->set('name', $name)
             ->set('slug', $slug)
             ->set('step', serialize($step))
             ->set('user_id', $user[0]->id)
             ->insert('recipes__recipe');
+
+        if($user == null) {
+            error(400, 'Bad Request', array('slug'));
+        }
 
         $aff = (object) array ('code' => 201, 'message' => 'Created');
 

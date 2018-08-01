@@ -18,11 +18,14 @@ function connect()
     echo "Connected successfully";
 }
 
-function error($error)
+function error($error, $message = 'not found', $data = null)
 {
     header('Content-Type: application/json');
     set_status_header($error);
-    $mes = array('code' => $error, 'message' => 'not found');
+    $mes = array('code' => $error, 'message' => $message);
+    if ($data != null) {
+        $mess['datas'] = $data;
+    }
     echo json_encode($mes);
     die;
 }
