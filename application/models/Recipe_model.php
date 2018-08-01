@@ -93,18 +93,6 @@ class Recipe_model extends CI_Model
 
     public function post ($pass, $name, $slug, $step) {
 
-        if ($name == null) {
-            error(400, 'Bad Request', array('name'));
-        }
-
-        if ($step == null) {
-            error(400, 'Bad Request', array('step'));
-        }
-
-        if ($slug == null) {
-            $slug = $name;
-        }
-
         $user = $this->db->from('users__user')
             ->select('username, last_login, id')
             ->where('password', $pass)
@@ -112,6 +100,18 @@ class Recipe_model extends CI_Model
 
         if($user == null) {
             error(401, 'Unauthorized');
+        }
+
+        if ($name == null) {
+            error(400, 'Bad Request', array('name'));
+        }
+
+        if ($slug == null) {
+            $slug = $name;
+        }
+
+        if ($step == null) {
+            $step = array('');
         }
 
         $insert = $this->db->set('name', $name)
@@ -136,7 +136,7 @@ class Recipe_model extends CI_Model
 
         $data = (object) array ('id' =>$user[0]->id);
         $data->name = $name;
-        $data->user = $user;
+        $data->user = $user[0];
         $data->slug = $slug;
         $data->step = $step;
 
