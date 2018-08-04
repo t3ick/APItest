@@ -163,6 +163,15 @@ class Recipe_model extends CI_Model
             error (400, 'Bad Request', array('slug or name or step'));
         }
 
+        if (!($field == 'slug' || $field == 'name' || $field == 'step')) {
+            error (400, 'Bad Request', array('slug or name or step'));
+        }
+
+        if ($field == 'step'); {
+            $ifStep = $value;
+            $value = serialize($value);
+        }
+
         $recipes = $this->db->from('recipes__recipe')
             ->select('id, user_id, '.$field)
             ->where('slug', $aData['slug'])
@@ -203,7 +212,12 @@ class Recipe_model extends CI_Model
         $aff = (object) array ('code' => 200, 'message' => 'OK');
 
         $data = (object) array ('id' => (int)$recipes[0]->id);
-        $data->$field = $recipes[0]->$field;
+
+        if ($field == 'step'); {
+            $value = $ifStep;
+        }
+
+        $data->$field = $value;
         $data->user = (object)array();
         $data->user->username = $user[0]->username;
         $data->user->last_login = $date;
