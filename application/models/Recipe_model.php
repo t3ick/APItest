@@ -139,7 +139,7 @@ class Recipe_model extends CI_Model
             ->where('slug', $slug)
             ->get()->result();
 
-        $data = (object) array ('id' => $id[0]->id);
+        $data = (object) array ('id' => (int)$id[0]->id);
         $data->name = $name;
         $data->user = $user[0];
         $data->slug = $slug;
@@ -148,6 +148,74 @@ class Recipe_model extends CI_Model
         $aff->datas = $data;
 
         set_status_header(201);
+        echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);die;
+    }
+
+    public function put ($aData, $pass) {
+        $i = 0;
+        $field = '';
+        foreach ($aData['stream'] as $key => $val) {
+            $field = $key;
+            $value = $val;
+            $i++;
+        }
+        if (1 < $i) {
+            error (400, 'Bad Request', array('slug or name or step'));
+        }
+
+        $recipes = $this->db->from('recipes__recipe')
+            ->select('id, user_id, '.$field)
+            ->where('slug', $aData['slug'])
+            ->get()->result();
+
+        if($recipes == null) {
+            error(400, 'Bad Request', array('slug'));
+        }
+
+        $user = $this->db->from('users__user')
+            ->select('id, username')
+            ->where('id', $recipes[0]->user_id)
+            ->where('password', $pass)
+            ->get()->result();
+
+        if($user == null) {
+            error(401, 'Unauthorized');
+        }
+
+        $date = date('Y-m-d');
+
+        $lastDate = $this->db->set('last_login', $date)
+            ->where('id', $recipes[0]->user_id)
+            ->update('users__user');
+
+        if($lastDate == null) {
+            error(400, 'Bad Request', array('slug'));
+        }
+
+        $update = $this->db->set($field, $value)
+            ->where('slug', $aData['slug'])
+            ->update('recipes__recipe');
+
+        if($update == null) {
+            error(400, 'Bad Request', array('slug'));
+        }
+
+        $aff = (object) array ('code' => 200, 'message' => 'OK');
+
+        $data = (object) array ('id' => (int)$recipes[0]->id);
+        $data->$field = $recipes[0]->$field;
+        $data->user = (object)array();
+        $data->user->username = $user[0]->username;
+        $data->user->last_login = $date;
+        $data->user->id = $user[0]->id;
+
+        $aff->datas = $data;
+
+        if ($field === 'sluf') {
+            $aData['slug'] = $val;
+        }
+        $data->slug = $aData['slug'];
+
         echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);die;
     }
 }
