@@ -167,7 +167,7 @@ class Recipe_model extends CI_Model
             error (400, 'Bad Request', array('slug or name or step'));
         }
 
-        if ($field == 'step'); {
+        if ($field === 'step') {
             $ifStep = $value;
             $value = serialize($value);
         }
@@ -213,7 +213,7 @@ class Recipe_model extends CI_Model
 
         $data = (object) array ('id' => (int)$recipes[0]->id);
 
-        if ($field == 'step'); {
+        if ($field == 'step') {
             $value = $ifStep;
         }
 
