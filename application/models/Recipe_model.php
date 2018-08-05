@@ -153,6 +153,15 @@ class Recipe_model extends CI_Model
 
     public function put ($aData, $pass) {
 
+        $if403 = $this->db->from('users__user')
+            ->select('id')
+            ->where('password', $pass)
+            ->get()->result();
+
+        if ($if403 == null) {
+            error(401, 'Unauthorized');
+        }
+
         $recipes = $this->db->from('recipes__recipe')
             ->select('id, user_id, ')
             ->where('slug', $aData['slug'])
@@ -169,15 +178,6 @@ class Recipe_model extends CI_Model
             ->get()->result();
 
         if($user == null) {
-
-            $if403 = $this->db->from('users__user')
-                ->select('id')
-                ->where('password', $pass)
-                ->get()->result();
-
-            if ($if403 == null) {
-                error(401, 'Unauthorized');
-            }
             error(403, 'Forbidden');
         }
 
@@ -242,13 +242,59 @@ class Recipe_model extends CI_Model
         $data->user->last_login = $date;
         $data->user->id = $user[0]->id;
 
-        $aff->datas = $data;
-
         if ($field === 'sluf') {
             $aData['slug'] = $val;
         }
         $data->slug = $aData['slug'];
 
+        $aff->datas = $data;
+
         echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);die;
     }
+
+    public function delete ($aData, $pass)
+    {
+        $if403 = $this->db->from('users__user')
+            ->select('id')
+            ->where('password', $pass)
+            ->get()->result();
+
+        if ($if403 == null) {
+            error(401, 'Unauthorized');
+        }
+
+        $recipes = $this->db->from('recipes__recipe')
+            ->select('id, user_id, ')
+            ->where('slug', $aData['slug'])
+            ->get()->result();
+
+        if ($recipes == null) {
+            error(400, 'Bad Request', array('slug'));
+        }
+
+        $user = $this->db->from('users__user')
+            ->select('id, username')
+            ->where('id', $recipes[0]->user_id)
+            ->where('password', $pass)
+            ->get()->result();
+
+        if ($user == null) {
+            error(403, 'Forbidden');
+        }
+
+        $this->db->where('recipe_id', $recipes[0]->id)
+            ->delete('recipes__recipe_category');
+
+        $this->db->where('slug', $aData['slug'])
+            ->delete('recipes__recipe');
+
+        $aff = (object) array ('code' => 200, 'message' => 'OK');
+
+        $data = (object) array ('id' => (int)$recipes[0]->id);
+
+        $aff->datas = $data;
+
+        echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);die;
+    }
+
 }

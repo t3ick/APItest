@@ -16,6 +16,15 @@ class Api extends CI_Controller {
             error(404);
         }
 
+        if ($this->input->server('REQUEST_METHOD') == 'DELETE') {
+            if (isset($this->uri->segments[4])) {
+                error(404);
+            }
+            $pass = $this->input->get_request_header('Authorization');
+            $aData['slug'] = $this->uri->segments[3];
+            $this->Recipe_model->delete($aData, $pass);die;
+        }
+
         if ($this->input->server('REQUEST_METHOD') == 'PUT') {
             if (isset($this->uri->segments[4])) {
                 error(404);
