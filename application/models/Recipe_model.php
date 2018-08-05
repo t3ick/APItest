@@ -288,7 +288,7 @@ class Recipe_model extends CI_Model
         $this->db->where('slug', $aData['slug'])
             ->delete('recipes__recipe');
 
-        $aff = (object) array ('code' => 200, 'message' => 'OK');
+        $aff = (object) array ('code' => 200, 'message' => 'success');
 
         $data = (object) array ('id' => (int)$recipes[0]->id);
 
