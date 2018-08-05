@@ -152,6 +152,35 @@ class Recipe_model extends CI_Model
     }
 
     public function put ($aData, $pass) {
+
+        $recipes = $this->db->from('recipes__recipe')
+            ->select('id, user_id, ')
+            ->where('slug', $aData['slug'])
+            ->get()->result();
+
+        if($recipes == null) {
+            error(400, 'Bad Request', array('slug'));
+        }
+
+        $user = $this->db->from('users__user')
+            ->select('id, username')
+            ->where('id', $recipes[0]->user_id)
+            ->where('password', $pass)
+            ->get()->result();
+
+        if($user == null) {
+
+            $if403 = $this->db->from('users__user')
+                ->select('id')
+                ->where('password', $pass)
+                ->get()->result();
+
+            if ($if403 == null) {
+                error(401, 'Unauthorized');
+            }
+            error(403, 'Forbidden');
+        }
+
         $i = 0;
         $field = '';
         foreach ($aData['stream'] as $key => $val) {
@@ -179,25 +208,6 @@ class Recipe_model extends CI_Model
 
         if($recipes == null) {
             error(400, 'Bad Request', array('slug'));
-        }
-
-        $user = $this->db->from('users__user')
-            ->select('id, username')
-            ->where('id', $recipes[0]->user_id)
-            ->where('password', $pass)
-            ->get()->result();
-
-        if($user == null) {
-
-            $if403 = $this->db->from('users__user')
-                ->select('id')
-                ->where('password', $pass)
-                ->get()->result();
-
-            if ($if403 == null) {
-                error(401, 'Unauthorized');
-            }
-            error(403, 'Forbidden');
         }
 
         $date = date('Y-m-d');
