@@ -159,11 +159,11 @@ class Recipe_model extends CI_Model
             $value = $val;
             $i++;
         }
-        if (1 < $i) {
+        if ($i != 1) {
             error (400, 'Bad Request', array('slug or name or step'));
         }
 
-        if (!($field == 'slug' || $field == 'name' || $field == 'step')) {
+        if (!($field == 'slug' || $field == 'name' || $field == 'step') || $value == '') {
             error (400, 'Bad Request', array('slug or name or step'));
         }
 
@@ -188,7 +188,16 @@ class Recipe_model extends CI_Model
             ->get()->result();
 
         if($user == null) {
-            error(401, 'Unauthorized');
+
+            $if403 = $this->db->from('users__user')
+                ->select('id')
+                ->where('password', $pass)
+                ->get()->result();
+
+            if ($if403 == null) {
+                error(401, 'Unauthorized');
+            }
+            error(403, 'Forbidden');
         }
 
         $date = date('Y-m-d');
