@@ -297,7 +297,8 @@ class Recipe_model extends CI_Model
         echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);die;
     }
 
-    public function filter ($name) {
+    public function filter ($name)
+    {
 
         $recipes = $this->db->from('recipes__recipe')
             ->select('id, name, slug')
@@ -306,6 +307,42 @@ class Recipe_model extends CI_Model
 
         $aff = (object) array ('code' => 200, 'message' => 'OK');
         $aff->datas = $recipes;
+
+        echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);die;
+    }
+
+    public function auth ($pass, $slug)
+    {
+        $if403 = $this->db->from('users__user')
+            ->select('id')
+            ->where('password', $pass)
+            ->get()->result();
+
+        if ($if403 == null) {
+            error(401, 'Unauthorized');
+        }
+
+        $recipes = $this->db->from('recipes__recipe')
+            ->select('id, name, user_id')
+            ->where('slug', $slug)
+            ->get()->result();
+
+        $user = $this->db->from('users__user')
+            ->select('username, last_login, id, email')
+            ->where('id', $recipes[0]->user_id)
+            ->where('password', $pass)
+            ->get()->result();
+
+        if($user == null) {
+            error(403, 'Forbidden');
+        }
+
+        $aff = (object) array ('code' => 200, 'message' => 'OK');
+        $aff->datas = (object) array();
+        $aff->datas->id = $recipes[0]->id;
+        $aff->datas->name = $recipes[0]->name;
+        $aff->datas->user = $user[0];
+        $aff->datas->slug = $slug;
 
         echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);die;
     }

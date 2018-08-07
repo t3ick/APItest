@@ -56,6 +56,14 @@ class Api extends CI_Controller {
             $this->Recipe_model->filter($name);die;
         }
 
+        $pass = $this->input->get_request_header('Authorization');
+        if ($pass != null) {
+            if (isset($this->uri->segments[4])){
+                error(404);
+            }
+            $this->Recipe_model->auth($pass, $this->uri->segments[3]);die;
+        }
+
         if (isset($this->uri->segments[4])){
             if ($this->uri->segments[4] === 'steps') {
                 $this->Recipe_model->step($this->uri->segments[3]);die;
