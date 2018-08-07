@@ -48,6 +48,14 @@ class Api extends CI_Controller {
             $this->Recipe_model->post($pass, $name, $slug, $step);die;
         }
 
+        $name = $this->input->get('name');
+        if ($name != null) {
+            if (isset($this->uri->segments[3])){
+                error(404);
+            }
+            $this->Recipe_model->filter($name);die;
+        }
+
         if (isset($this->uri->segments[4])){
             if ($this->uri->segments[4] === 'steps') {
                 $this->Recipe_model->step($this->uri->segments[3]);die;

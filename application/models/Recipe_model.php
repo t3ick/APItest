@@ -297,4 +297,17 @@ class Recipe_model extends CI_Model
         echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);die;
     }
 
+    public function filter ($name) {
+
+        $recipes = $this->db->from('recipes__recipe')
+            ->select('id, name, slug')
+            ->like('name', $name)
+            ->get()->result();
+
+        $aff = (object) array ('code' => 200, 'message' => 'OK');
+        $aff->datas = $recipes;
+
+        echo json_encode($aff, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);die;
+    }
+
 }
