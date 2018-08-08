@@ -319,7 +319,7 @@ class Recipe_model extends CI_Model
             ->get()->result();
 
         if ($if403 == null) {
-            error(401, 'Unauthorized');
+            return true;
         }
 
         $recipes = $this->db->from('recipes__recipe')
@@ -330,12 +330,7 @@ class Recipe_model extends CI_Model
         $user = $this->db->from('users__user')
             ->select('username, last_login, id, email')
             ->where('id', $recipes[0]->user_id)
-            ->where('password', $pass)
             ->get()->result();
-
-        if($user == null) {
-            error(403, 'Forbidden');
-        }
 
         $aff = (object) array ('code' => 200, 'message' => 'OK');
         $aff->datas = (object) array();
