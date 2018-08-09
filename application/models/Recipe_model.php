@@ -327,6 +327,16 @@ class Recipe_model extends CI_Model
             ->where('slug', $slug)
             ->get()->result();
 
+        $test401 = $this->db->from('users__user')
+            ->select('username, last_login, id, email')
+            ->where('id', $recipes[0]->user_id)
+            ->where('password', $pass)
+            ->get()->result();
+
+        if($test401 == null) {
+            return true;
+        }
+
         $user = $this->db->from('users__user')
             ->select('username, last_login, id, email')
             ->where('id', $recipes[0]->user_id)
